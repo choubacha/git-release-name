@@ -69,23 +69,20 @@ fn main() {
     let args: Vec<String> = env::args().collect();
     if args.len() > 1 {
         args[1..].iter().for_each(|sha| println!("{}", Phrase::new(&sha)));
+    } else if atty::is(Stream::Stdin) {
+        println!("{}", Phrase::new(&format!("{:8x}", rand::random::<usize>())));
     } else {
-        if atty::isnt(Stream::Stdin) {
-            // no args, check stdin
-            let stdin = io::stdin();
-            let mut reader = stdin.lock();
-            loop {
-                let mut line = String::new();
-                match reader.read_line(&mut line) {
-                    Ok(size) if size > 0 => println!("{}", Phrase::new(&line)),
-                    _ => break,
-                }
+        // no args, check stdin
+        let stdin = io::stdin();
+        let mut reader = stdin.lock();
+        loop {
+            let mut line = String::new();
+            match reader.read_line(&mut line) {
+                Ok(size) if size > 0 => println!("{}", Phrase::new(&line)),
+                _ => break,
             }
-        } else {
-            println!("{}", Phrase::new(&format!("{:8x}", rand::random::<usize>())))
         }
     };
-
 }
 
 #[cfg(test)]
