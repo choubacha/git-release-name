@@ -1,6 +1,7 @@
 extern crate rand;
 use std::env;
 use std::fmt::{Display, Formatter, Error};
+use std::io::{self, Read};
 
 #[derive(Debug)]
 struct Word {
@@ -66,7 +67,16 @@ fn main() {
     let sha = if args.len() > 1 {
         args[1].to_owned()
     } else {
-        format!("{:8x}", rand::random::<usize>())
+        // no args, check stdin
+        let stdin = io::stdin();
+        let mut reader = stdin.lock();
+        let mut buffer = String::new();
+        reader.read_to_string(&mut buffer);
+        if buffer.len() > 0 {
+            buffer
+        } else {
+            format!("{:8x}", rand::random::<usize>())
+        }
     };
     println!("{}", Phrase::new(&sha));
 }
