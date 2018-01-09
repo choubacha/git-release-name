@@ -5,3 +5,4 @@ authors = ["Kevin Choubacha <kchoubacha@weedmaps.com>"]
 
 [dependencies]
 rand = "*"
+atty = "0.2"
