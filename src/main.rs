@@ -4,16 +4,16 @@ use std::fmt::{Display, Formatter, Error};
 
 #[derive(Debug)]
 struct Word {
-    value: String,
+    sha: String,
     hash: usize,
     word: Option<String>,
 }
 
 impl Word {
-    fn new(value: &str) -> Word {
+    fn new(sha: &str) -> Word {
         Word {
-            value: value.to_string(),
-            hash: usize::from_str_radix(&value, 16).expect("Sha is not valid hex"),
+            sha: sha.to_string(),
+            hash: usize::from_str_radix(&sha, 16).expect("Sha is not valid hex"),
             word: None,
         }
     }
