@@ -17,7 +17,7 @@ impl Word {
         }
     }
 
-    fn use_dictionary(self, dict: &[&str]) -> Word {
+    fn lookup(self, dict: &[&str]) -> Word {
         Word { word: dict.get(self.hash).map(|s| s.to_string()), ..self }
     }
 }
@@ -34,9 +34,9 @@ fn main() {
         format!("{:8x}", rand::random::<usize>())
     };
 
-    let adv = Word::new(&sha[0..3]).use_dictionary(&adverbs::WORDS);
-    let adj = Word::new(&sha[3..5]).use_dictionary(&adjectives::WORDS);
-    let n   = Word::new(&sha[5..8]).use_dictionary(&nouns::WORDS);
+    let adv = Word::new(&sha[0..3]).lookup(&adverbs::WORDS);
+    let adj = Word::new(&sha[3..5]).lookup(&adjectives::WORDS);
+    let n   = Word::new(&sha[5..8]).lookup(&nouns::WORDS);
 
     println!("{} {} {}",
              adv.word.unwrap(),
