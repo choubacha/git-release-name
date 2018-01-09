@@ -78,7 +78,7 @@ fn main() {
         loop {
             let mut line = String::new();
             match reader.read_line(&mut line) {
-                Ok(size) if size > 0 => println!("{}", Phrase::new(&line)),
+                Ok(size) if size > 0 => println!("{}", Phrase::new(&line.trim())),
                 _ => break,
             }
         }
