@@ -36,19 +36,39 @@ mod adverbs;
 mod nouns;
 mod adjectives;
 
+struct Phrase {
+    adj: Word,
+    adv: Word,
+    noun: Word,
+}
+
+impl Phrase {
+    fn new(sha: &str) -> Phrase {
+        // Ensure that the sha is at least 8 characters so that
+        // when we extract the first 8 there is something there.
+        let sha = format!("{:0>8}", sha);
+        let adv  = Word::new(&sha[0..3]).lookup(&adverbs::WORDS);
+        let adj  = Word::new(&sha[3..5]).lookup(&adjectives::WORDS);
+        let noun = Word::new(&sha[5..8]).lookup(&nouns::WORDS);
+
+        Phrase { adv, adj, noun }
+    }
+}
+
+impl Display for Phrase {
+    fn fmt(&self, f: &mut Formatter) -> Result<(), Error> {
+        write!(f, "{} {} {}", self.adv, self.adj, self.noun)
+    }
+}
+
 fn main() {
     let args: Vec<String> = env::args().collect();
     let sha = if args.len() > 1 {
-        format!("{:0>8}", args[1])
+        args[1].to_owned()
     } else {
         format!("{:8x}", rand::random::<usize>())
     };
-
-    let adv = Word::new(&sha[0..3]).lookup(&adverbs::WORDS);
-    let adj = Word::new(&sha[3..5]).lookup(&adjectives::WORDS);
-    let n   = Word::new(&sha[5..8]).lookup(&nouns::WORDS);
-
-    println!("{} {} {}", adv, adj, n);
+    println!("{}", Phrase::new(&sha));
 }
 
 #[cfg(test)]
@@ -73,5 +93,11 @@ mod tests {
         assert_eq!("", format!("{}", word));
         let word = word.lookup(&adverbs::WORDS);
         assert_eq!("proximally", format!("{}", word));
+    }
+
+    #[test]
+    fn a_phrase_can_be_generated() {
+        let phrase = Phrase::new("0a00a00a");
+        assert_eq!("immeasurably endways borings", format!("{}", phrase));
     }
 }
