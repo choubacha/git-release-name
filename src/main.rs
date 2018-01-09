@@ -1,7 +1,10 @@
 extern crate rand;
+extern crate atty;
+
 use std::env;
 use std::fmt::{Display, Formatter, Error};
-use std::io::{self, Read};
+use std::io::{self, BufRead};
+use atty::Stream;
 
 #[derive(Debug)]
 struct Word {
@@ -64,21 +67,25 @@ impl Display for Phrase {
 
 fn main() {
     let args: Vec<String> = env::args().collect();
-    let sha = if args.len() > 1 {
-        args[1].to_owned()
+    if args.len() > 1 {
+        args[1..].iter().for_each(|sha| println!("{}", Phrase::new(&sha)));
     } else {
-        // no args, check stdin
-        let stdin = io::stdin();
-        let mut reader = stdin.lock();
-        let mut buffer = String::new();
-        reader.read_to_string(&mut buffer);
-        if buffer.len() > 0 {
-            buffer
+        if atty::isnt(Stream::Stdin) {
+            // no args, check stdin
+            let stdin = io::stdin();
+            let mut reader = stdin.lock();
+            loop {
+                let mut line = String::new();
+                match reader.read_line(&mut line) {
+                    Ok(size) if size > 0 => println!("{}", Phrase::new(&line)),
+                    _ => break,
+                }
+            }
         } else {
-            format!("{:8x}", rand::random::<usize>())
+            println!("{}", Phrase::new(&format!("{:8x}", rand::random::<usize>())))
         }
     };
-    println!("{}", Phrase::new(&sha));
+
 }
 
 #[cfg(test)]
