@@ -1,5 +1,6 @@
 extern crate rand;
 use std::env;
+use std::fmt::{Display, Formatter, Error};
 
 #[derive(Debug)]
 struct Word {
@@ -22,6 +23,15 @@ impl Word {
     }
 }
 
+impl Display for Word {
+    fn fmt(&self, f: &mut Formatter) -> Result<(), Error> {
+        if let Some(ref word) = self.word {
+            write!(f, "{}", word)?;
+        }
+        Ok(())
+    }
+}
+
 mod adverbs;
 mod nouns;
 mod adjectives;
@@ -38,8 +48,30 @@ fn main() {
     let adj = Word::new(&sha[3..5]).lookup(&adjectives::WORDS);
     let n   = Word::new(&sha[5..8]).lookup(&nouns::WORDS);
 
-    println!("{} {} {}",
-             adv.word.unwrap(),
-             adj.word.unwrap(),
-             n.word.unwrap())
+    println!("{} {} {}", adv, adj, n);
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn it_can_parse_into_a_word() {
+        let word = Word::new("a");
+        assert_eq!(word.hash, 10);
+    }
+
+    #[test]
+    fn it_can_look_up_from_a_dictionary() {
+        let word = Word::new("a").lookup(&adverbs::WORDS);
+        assert_eq!(word.word, Some("proximally".to_string()));
+    }
+
+    #[test]
+    fn it_can_format_the_word() {
+        let word = Word::new("a");
+        assert_eq!("", format!("{}", word));
+        let word = word.lookup(&adverbs::WORDS);
+        assert_eq!("proximally", format!("{}", word));
+    }
 }
