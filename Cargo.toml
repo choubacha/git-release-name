@@ -6,3 +6,4 @@ authors = ["Kevin Choubacha <kchoubacha@weedmaps.com>"]
 [dependencies]
 rand = "*"
 atty = "0.2"
+clap = "2.29"
