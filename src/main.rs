@@ -1,10 +1,11 @@
 extern crate rand;
 extern crate atty;
+extern crate clap;
 
-use std::env;
 use std::fmt::{Display, Formatter, Error};
 use std::io::{self, BufRead};
 use atty::Stream;
+use clap::{Arg, App};
 
 #[derive(Debug)]
 struct Word {
@@ -66,9 +67,16 @@ impl Display for Phrase {
 }
 
 fn main() {
-    let args: Vec<String> = env::args().collect();
-    if args.len() > 1 {
-        args[1..].iter().for_each(|sha| println!("{}", Phrase::new(&sha)));
+    let matches = App::new("Git Release Names")
+        .author("Kevin Choubacha <chewbacha@gmail.com>")
+        .about("Takes a git sha and uses it's relatively unique combination of letters and number to generate a release name")
+        .arg(Arg::with_name("SHA")
+             .multiple(true)
+             .help("Each arg should be a sha. If they are less than 8 characters they will be padded"))
+        .get_matches();
+    let args = matches.values_of("SHA");
+    if let Some(shas) = args {
+        shas.for_each(|sha| println!("{}", Phrase::new(&sha)));
     } else if atty::is(Stream::Stdin) {
         println!("{}", Phrase::new(&format!("{:8x}", rand::random::<usize>())));
     } else {
