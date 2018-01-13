@@ -9,9 +9,7 @@ use atty::Stream;
 use clap::{Arg, App, ArgMatches};
 use std::str::FromStr;
 
-mod adverbs;
-mod nouns;
-mod adjectives;
+mod dictionary;
 
 #[derive(Debug, Eq, PartialEq)]
 enum ParsePhraseError {
@@ -117,9 +115,9 @@ impl FromStr for Phrase {
         // Ensure that the sha is at least 8 characters so that
         // when we extract the first 8 there is something there.
         let sha = format!("{:0>8}", sha);
-        let adv = lookup(sha[0..3].parse()?, &adverbs::WORDS);
-        let adj = lookup(sha[3..5].parse()?, &adjectives::WORDS);
-        let noun = lookup(sha[5..8].parse()?, &nouns::WORDS);
+        let adv = lookup(sha[0..3].parse()?, &dictionary::adverbs::WORDS);
+        let adj = lookup(sha[3..5].parse()?, &dictionary::adjectives::WORDS);
+        let noun = lookup(sha[5..8].parse()?, &dictionary::nouns::WORDS);
 
         Ok(Phrase {
             adv,
@@ -247,7 +245,7 @@ mod tests {
 
     #[test]
     fn it_can_look_up_from_a_dictionary() {
-        let word = lookup(Word::from_str("a").unwrap(), &adverbs::WORDS);
+        let word = lookup(Word::from_str("a").unwrap(), &dictionary::adverbs::WORDS);
         assert_eq!(word.word, Some("proximally".to_string()));
     }
 
@@ -261,7 +259,7 @@ mod tests {
     fn it_can_format_the_word() {
         let word = Word::from_str("a").unwrap();
         assert_eq!("", format!("{}", word));
-        let word = lookup(word, &adverbs::WORDS);
+        let word = lookup(word, &dictionary::adverbs::WORDS);
         assert_eq!("proximally", format!("{}", word));
     }
 
