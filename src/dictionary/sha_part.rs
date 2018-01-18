@@ -1,6 +1,9 @@
 use std::str::FromStr;
 use dictionary::sha_result::{ParseShaError, ShaResult};
 
+/// A sha part. This is a slice of a sha that corresponds that can generally correspond
+/// to a word. The hash is the usize equivalent that will then be used to lookup
+/// the word in the corresponding dictionary.
 #[derive(Debug)]
 pub struct ShaPart {
     sha: String,
