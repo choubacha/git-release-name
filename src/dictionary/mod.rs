@@ -12,6 +12,8 @@ use self::phrase::Phrase;
 use self::sha_result::{ShaResult, ParseShaError};
 use self::sha_part::ShaPart;
 
+/// Looks up a phrase from a given str slice. It should be able to look up
+/// any sized string but only if it's a valid hexadecimal.
 pub fn lookup(sha: &str) -> ShaResult<Phrase> {
     sha.parse()
 }

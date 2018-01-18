@@ -4,6 +4,10 @@ use dictionary::sha_result::{ParseShaError, ShaResult};
 use dictionary::case::{Case};
 use dictionary;
 
+/// A phrase that is made up of an adverb, adjective, noun.
+///
+/// When parsed from a slice it will lookup the sha parts in the dictionary.
+/// It knows how to properly format itself if a different case is selected.
 pub struct Phrase {
     adj: String,
     adv: String,

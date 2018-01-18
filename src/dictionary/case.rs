@@ -1,5 +1,7 @@
 use std::str::FromStr;
 
+/// The various cases that can be supported. This is a type used to coerce
+/// from a string to the enum.
 #[derive(Debug, Eq, PartialEq, Copy, Clone)]
 pub enum Case {
     Snake,
