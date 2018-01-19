@@ -8,3 +8,30 @@ jobs:
       - run:
           name: Test
           command: cargo test --all
+  deploy-master:
+    docker:
+      - image: rust:latest
+    steps:
+      - checkout
+      - run:
+          name: Setup git user info
+          command: |
+            git config --global user.email "chewbacha@gmail.com"
+            git config --global user.name "Kevin Choubacha"
+      - run:
+          name: Tag commit
+          command: git tag -m "$(cargo run -- $(git rev-parse HEAD) -f sentence)" $(cargo run -- $(git rev-parse HEAD) -f kebab)
+      - run:
+          name: Push tag
+          command: git push origin --tags
+workflows:
+  version: 2
+  build-deploy:
+    jobs:
+      - build
+      - deploy-master:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
