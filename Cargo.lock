@@ -67,10 +67,10 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 name = "git-release-name"
 version = "0.1.0"
 dependencies = [
- "Inflector 0.11.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "atty 0.2.6 (registry+https://github.com/rust-lang/crates.io-index)",
  "clap 2.29.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "rand 0.4.2 (registry+https://github.com/rust-lang/crates.io-index)",
+ "rn_dictionary 0.1.0",
 ]
 
 [[package]]
@@ -135,6 +135,13 @@ dependencies = [
 name = "regex-syntax"
 version = "0.4.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
+
+[[package]]
+name = "rn_dictionary"
+version = "0.1.0"
+dependencies = [
+ "Inflector 0.11.1 (registry+https://github.com/rust-lang/crates.io-index)",
+]
 
 [[package]]
 name = "strsim"

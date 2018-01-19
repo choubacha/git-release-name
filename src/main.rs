@@ -1,14 +1,13 @@
 extern crate rand;
 extern crate atty;
 extern crate clap;
-extern crate inflector;
+extern crate rn_dictionary;
 
 use std::io::{self, BufRead};
 use atty::Stream;
 use clap::{Arg, App, ArgMatches};
 
-mod dictionary;
-use dictionary::Case;
+use rn_dictionary::Case;
 
 fn main() {
     let matches = app_matches();
@@ -21,7 +20,7 @@ fn main() {
 
     if let Some(shas) = matches.values_of("SHA") {
         shas.for_each(|sha| {
-            println!("{}", dictionary::lookup(&sha).unwrap().with_case(format))
+            println!("{}", rn_dictionary::lookup(&sha).unwrap().with_case(format))
         });
     } else if atty::is(Stream::Stdin) {
         from_random_sha(format)
@@ -67,7 +66,7 @@ fn app_matches() -> ArgMatches<'static> {
 fn from_random_sha(format: Case) {
     println!(
         "{}",
-        dictionary::lookup(&format!("{:8x}", rand::random::<usize>()))
+        rn_dictionary::lookup(&format!("{:8x}", rand::random::<usize>()))
             .unwrap()
             .with_case(format)
     );
@@ -82,7 +81,7 @@ fn from_stdin(format: Case) {
             Ok(size) if size > 0 => {
                 println!(
                     "{}",
-                    dictionary::lookup(&line.trim()).unwrap().with_case(format)
+                    rn_dictionary::lookup(&line.trim()).unwrap().with_case(format)
                 )
             }
             _ => break,
