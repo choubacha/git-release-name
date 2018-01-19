@@ -1,3 +1,5 @@
+extern crate inflector;
+
 mod adverbs;
 mod adjectives;
 mod nouns;

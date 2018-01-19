@@ -7,4 +7,4 @@ jobs:
       - checkout
       - run:
           name: Test
-          command: cargo test
+          command: cargo test --all

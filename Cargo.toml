@@ -7,4 +7,6 @@ authors = ["Kevin Choubacha <kchoubacha@weedmaps.com>"]
 rand = "*"
 atty = "^0.2"
 clap = "^2.29"
-Inflector = "0.11"
+rn_dictionary = { path = "rn_dictionary" }
+
+[workspace]

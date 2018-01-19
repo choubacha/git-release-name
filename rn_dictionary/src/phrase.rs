@@ -1,8 +1,7 @@
 use std::fmt::{Display, Formatter, Error};
 use std::str::FromStr;
-use dictionary::sha_result::{ParseShaError, ShaResult};
-use dictionary::case::{Case};
-use dictionary;
+use sha_result::{ParseShaError, ShaResult};
+use case::{Case};
 
 /// A phrase that is made up of an adverb, adjective, noun.
 ///
@@ -29,9 +28,9 @@ impl FromStr for Phrase {
         // Ensure that the sha is at least 8 characters so that
         // when we extract the first 8 there is something there.
         let sha = format!("{:0>8}", sha);
-        let adv = dictionary::lookup_adverb(sha[0..3].parse()?)?;
-        let adj = dictionary::lookup_adjective(sha[3..5].parse()?)?;
-        let noun = dictionary::lookup_noun(sha[5..8].parse()?)?;
+        let adv = super::lookup_adverb(sha[0..3].parse()?)?;
+        let adj = super::lookup_adjective(sha[3..5].parse()?)?;
+        let noun = super::lookup_noun(sha[5..8].parse()?)?;
 
         Ok(Phrase {
             adv,
