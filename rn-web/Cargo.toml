@@ -1,0 +1,8 @@
+[package]
+name = "release-name-web"
+version = "0.1.0"
+authors = ["Kevin Choubacha <chewbacha@gmail.com>"]
+
+[dependencies]
+nickel = "0.10"
+rn_dictionary = { path = "../rn-dictionary" }
