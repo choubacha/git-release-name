@@ -20,7 +20,7 @@ jobs:
             git config --global user.name "Kevin Choubacha"
       - run:
           name: Tag commit
-          command: git tag -m "$(cargo run -- $(git rev-parse HEAD) -f sentence)" $(cargo run -- $(git rev-parse HEAD) -f kebab)
+          command: git tag -m "$(cargo run -p git-release-name -- $(git rev-parse HEAD) -f sentence)" $(cargo run -p git-release-name -- $(git rev-parse HEAD) -f kebab)
       - run:
           name: Push tag
           command: git push origin --tags
