@@ -10,3 +10,6 @@ clap = "^2.29"
 rn_dictionary = { path = "rn_dictionary" }
 
 [workspace]
+
+[dev-dependencies]
+assert_cli = "0.5"
