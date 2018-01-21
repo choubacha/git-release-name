@@ -1,15 +1,2 @@
-[package]
-name = "git-release-name"
-version = "0.1.0"
-authors = ["Kevin Choubacha <kchoubacha@weedmaps.com>"]
-
-[dependencies]
-rand = "*"
-atty = "^0.2"
-clap = "^2.29"
-rn_dictionary = { path = "rn_dictionary" }
-
 [workspace]
-
-[dev-dependencies]
-assert_cli = "0.5"
+members = ["rn-dictionary", "rn-web", "rn-cli"]
