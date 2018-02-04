@@ -1,23 +1,18 @@
-#[macro_use] extern crate nickel;
+#![feature(plugin)]
+#![plugin(rocket_codegen)]
+
 extern crate rn_dictionary;
+extern crate rocket;
 
-use nickel::{Nickel, HttpRouter};
-use nickel::status::StatusCode;
+use rocket::response::status::NotFound;
 
+#[get("/api/release-name/<sha>")]
+fn api_release_name(sha: String) -> Result<String, NotFound<String>> {
+    match rn_dictionary::lookup(&sha) {
+        Ok(name)    => Ok(format!("{}", name)),
+        Err(_)      => Err(NotFound("No name found".to_string())),
+    }
+}
 fn main() {
-    let mut server = Nickel::new();
-    server.get("/api/release-name/:sha", middleware! { |req, mut res|
-        if let Some(sha) = req.param("sha") {
-            match rn_dictionary::lookup(&sha) {
-                Ok(name) => format!("{}", name),
-                Err(_) => {
-                    res.set(StatusCode::UnprocessableEntity);
-                    "".to_string()
-                }
-            }
-        } else {
-            "SHA not detected".to_string()
-        }
-    });
-    server.listen("0.0.0.0:6767").expect("Server failed to launch");
+    rocket::ignite().mount("/", routes![api_release_name]).launch();
 }
