@@ -131,7 +131,7 @@ pub const WORDS: [&'static str; 256] = [
     "dockside",
     "coreless",
     "socko",
-    "negroid",
+    "restless",
     "furzy",
     "tabu",
     "lanose",
