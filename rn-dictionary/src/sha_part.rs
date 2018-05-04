@@ -21,7 +21,10 @@ impl FromStr for ShaPart {
 
     fn from_str(sha: &str) -> ShaResult<ShaPart> {
         if let Ok(hash) = usize::from_str_radix(&sha, 16) {
-            Ok(ShaPart { sha: sha.to_string(), hash })
+            Ok(ShaPart {
+                sha: sha.to_string(),
+                hash,
+            })
         } else {
             Err(ParseShaError::NonHexadecimalCharacters)
         }

@@ -11,7 +11,7 @@ mod phrase;
 pub use self::case::Case;
 
 use self::phrase::Phrase;
-use self::sha_result::{ShaResult, ParseShaError};
+use self::sha_result::{ParseShaError, ShaResult};
 use self::sha_part::ShaPart;
 
 /// Looks up a phrase from a given str slice. It should be able to look up
@@ -48,9 +48,9 @@ mod tests {
     use std::hash::Hash;
 
     fn has_unique_elements<T>(iter: T) -> bool
-        where
-            T: IntoIterator,
-            T::Item: Eq + Hash,
+    where
+        T: IntoIterator,
+        T::Item: Eq + Hash,
     {
         let mut uniq = HashSet::new();
         iter.into_iter().all(move |x| uniq.insert(x))

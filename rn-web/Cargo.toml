@@ -5,5 +5,7 @@ authors = ["Kevin Choubacha <chewbacha@gmail.com>"]
 
 [dependencies]
 rn_dictionary = { path = "../rn-dictionary" }
-rocket = "0.3.6"
-rocket_codegen = "0.3.6"
+actix-web = "0.5"
+serde = "1.0"
+serde_derive = "1.0"
+serde_json = "1.0"
