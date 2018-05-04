@@ -1,11 +1,11 @@
-extern crate rand;
 extern crate atty;
 extern crate clap;
+extern crate rand;
 extern crate rn_dictionary;
 
 use std::io::{self, BufRead};
 use atty::Stream;
-use clap::{Arg, App, ArgMatches};
+use clap::{App, Arg, ArgMatches};
 
 use rn_dictionary::Case;
 
@@ -19,9 +19,7 @@ fn main() {
     };
 
     if let Some(shas) = matches.values_of("SHA") {
-        shas.for_each(|sha| {
-            println!("{}", rn_dictionary::lookup(&sha).unwrap().with_case(format))
-        });
+        shas.for_each(|sha| println!("{}", rn_dictionary::lookup(&sha).unwrap().with_case(format)));
     } else if atty::is(Stream::Stdin) {
         from_random_sha(format)
     } else {
@@ -31,14 +29,7 @@ fn main() {
 }
 
 const FORMAT_OPTIONS: [&'static str; 8] = [
-    "snake",
-    "kebab",
-    "camel",
-    "pascal",
-    "title",
-    "sentence",
-    "upper",
-    "lower",
+    "snake", "kebab", "camel", "pascal", "title", "sentence", "upper", "lower"
 ];
 
 fn app_matches() -> ArgMatches<'static> {
@@ -46,7 +37,7 @@ fn app_matches() -> ArgMatches<'static> {
         .author("Kevin Choubacha <chewbacha@gmail.com>")
         .about(
             "Takes a git sha and uses it's relatively unique combination of letters and number \
-                to generate a release name",
+             to generate a release name",
         )
         .arg(
             Arg::with_name("format")
@@ -78,14 +69,13 @@ fn from_stdin(format: Case) {
     loop {
         let mut line = String::new();
         match reader.read_line(&mut line) {
-            Ok(size) if size > 0 => {
-                println!(
-                    "{}",
-                    rn_dictionary::lookup(&line.trim()).unwrap().with_case(format)
-                )
-            }
+            Ok(size) if size > 0 => println!(
+                "{}",
+                rn_dictionary::lookup(&line.trim())
+                    .unwrap()
+                    .with_case(format)
+            ),
             _ => break,
         }
     }
 }
-

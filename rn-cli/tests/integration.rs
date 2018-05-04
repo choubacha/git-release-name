@@ -22,7 +22,11 @@ mod integration {
     #[test]
     fn it_can_generate_a_name_based_on_a_sha_with_casing() {
         Assert::main_binary()
-            .with_args(&["--format", "camel", "017020733fecef58761259d5d307c83876f9b428"])
+            .with_args(&[
+                "--format",
+                "camel",
+                "017020733fecef58761259d5d307c83876f9b428",
+            ])
             .succeeds()
             .stdout()
             .contains("issuablyTwinningVerso")
