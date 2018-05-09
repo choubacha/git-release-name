@@ -7,7 +7,7 @@ authors = ["Kevin Choubacha <chewbacha@gmail.com>"]
 rand = "*"
 atty = "^0.2"
 clap = "^2.29"
-rn_dictionary = { path = "../rn-dictionary" }
+rn_dictionary = { path = "../dictionary" }
 
 [dev-dependencies]
 assert_cli = "0.5"

@@ -1,2 +1,2 @@
 [workspace]
-members = ["rn-dictionary", "rn-web", "rn-cli"]
+members = ["dictionary", "web", "cli"]
