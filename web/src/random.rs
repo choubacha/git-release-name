@@ -17,7 +17,7 @@ pub struct Name {
 
 pub fn handler(q: Query<Params>) -> Json<Response<Name>> {
     let format = q.format.unwrap_or(Case::Lower.into());
-    let sha = format!("{:8x}", rand::random::<u32>());
+    let sha = format!("{:08x}", rand::random::<u32>());
     let name = git_release_name::lookup(&sha)
         .map(|p| p.with_case(*format).to_string())
         .unwrap_or(String::new());

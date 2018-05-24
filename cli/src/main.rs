@@ -57,7 +57,7 @@ fn app_matches() -> ArgMatches<'static> {
 fn from_random_sha(format: Case) {
     println!(
         "{}",
-        git_release_name::lookup(&format!("{:8x}", rand::random::<usize>()))
+        git_release_name::lookup(&format!("{:08x}", rand::random::<u32>()))
             .unwrap()
             .with_case(format)
     );
