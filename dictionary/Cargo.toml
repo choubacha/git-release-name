@@ -4,7 +4,7 @@ version = "0.1.0"
 authors = ["Kevin Choubacha <kchoubacha@weedmaps.com>"]
 licence = "MIT"
 description = "A simple library for turning git shas into release names"
-readme = "README.md"
+readme = "../README.md"
 
 [dependencies]
 Inflector = "0.11"
