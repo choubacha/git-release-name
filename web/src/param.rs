@@ -1,4 +1,4 @@
-use rn_dictionary::Case;
+use git_release_name::Case;
 use serde::{de, Deserialize, Deserializer};
 use std::ops::Deref;
 

@@ -1,7 +1,7 @@
 use super::Response;
 use actix_web::{Json, Query};
 use param;
-use rn_dictionary::{self, Case};
+use git_release_name::{self, Case};
 use std::collections::HashMap;
 
 #[derive(Deserialize)]
@@ -23,7 +23,7 @@ impl BulkNames {
     fn from_list(case: Case, shas: &[String]) -> Self {
         let mut map = HashMap::new();
         for sha in shas {
-            let name = rn_dictionary::lookup(&sha)
+            let name = git_release_name::lookup(&sha)
                 .map(|name| name.with_case(case).to_string())
                 .ok();
             map.insert(sha.to_string(), name);

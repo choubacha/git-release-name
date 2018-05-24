@@ -1,13 +1,17 @@
 [package]
-name = "git-release-name"
+name = "git-release-name-cli"
 version = "0.1.0"
 authors = ["Kevin Choubacha <chewbacha@gmail.com>"]
+
+[[bin]]
+name = "git-release-name"
+path = "./src/main.rs"
 
 [dependencies]
 rand = "*"
 atty = "^0.2"
 clap = "^2.29"
-rn_dictionary = { path = "../dictionary" }
+git-release-name = { path = "../dictionary" }
 
 [dev-dependencies]
 assert_cli = "0.5"

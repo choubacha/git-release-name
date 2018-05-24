@@ -1,5 +1,5 @@
 extern crate actix_web;
-extern crate rn_dictionary;
+extern crate git_release_name;
 extern crate serde;
 #[macro_use]
 extern crate serde_derive;

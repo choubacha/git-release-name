@@ -1,13 +1,13 @@
 extern crate atty;
 extern crate clap;
 extern crate rand;
-extern crate rn_dictionary;
+extern crate git_release_name;
 
 use atty::Stream;
 use clap::{App, Arg, ArgMatches};
 use std::io::{self, BufRead};
 
-use rn_dictionary::Case;
+use git_release_name::Case;
 
 fn main() {
     let matches = app_matches();
@@ -19,7 +19,7 @@ fn main() {
     };
 
     if let Some(shas) = matches.values_of("SHA") {
-        shas.for_each(|sha| println!("{}", rn_dictionary::lookup(&sha).unwrap().with_case(format)));
+        shas.for_each(|sha| println!("{}", git_release_name::lookup(&sha).unwrap().with_case(format)));
     } else if atty::is(Stream::Stdin) {
         from_random_sha(format)
     } else {
@@ -57,7 +57,7 @@ fn app_matches() -> ArgMatches<'static> {
 fn from_random_sha(format: Case) {
     println!(
         "{}",
-        rn_dictionary::lookup(&format!("{:8x}", rand::random::<usize>()))
+        git_release_name::lookup(&format!("{:8x}", rand::random::<usize>()))
             .unwrap()
             .with_case(format)
     );
@@ -71,7 +71,7 @@ fn from_stdin(format: Case) {
         match reader.read_line(&mut line) {
             Ok(size) if size > 0 => println!(
                 "{}",
-                rn_dictionary::lookup(&line.trim())
+                git_release_name::lookup(&line.trim())
                     .unwrap()
                     .with_case(format)
             ),
