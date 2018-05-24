@@ -2,7 +2,7 @@
 name = "git-release-name"
 version = "0.1.0"
 authors = ["Kevin Choubacha <kchoubacha@weedmaps.com>"]
-licence = "MIT"
+license = "MIT"
 description = "A simple library for turning git shas into release names"
 repository = "https://github.com/kbacha/git-release-name"
 homepage = "http://releasename.com/"
