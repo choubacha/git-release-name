@@ -1,6 +1,6 @@
+use rn_dictionary::Case;
 use serde::{de, Deserialize, Deserializer};
 use std::ops::Deref;
-use rn_dictionary::Case;
 
 pub struct CSV(Vec<String>);
 

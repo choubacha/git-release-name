@@ -1,7 +1,7 @@
+use case::Case;
+use sha_result::{ParseShaError, ShaResult};
 use std::fmt::{Display, Error, Formatter};
 use std::str::FromStr;
-use sha_result::{ParseShaError, ShaResult};
-use case::Case;
 
 /// A phrase that is made up of an adverb, adjective, noun.
 ///

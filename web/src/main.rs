@@ -3,14 +3,16 @@ extern crate rn_dictionary;
 extern crate serde;
 #[macro_use]
 extern crate serde_derive;
+extern crate rand;
 extern crate serde_json;
 
 use actix_web::{http, server, App};
 use serde::Serialize;
 
-mod param;
-mod show;
 mod index;
+mod param;
+mod random;
+mod show;
 
 #[derive(Serialize)]
 pub struct Response<T>
@@ -33,6 +35,11 @@ fn main() {
     server::new(|| {
         App::new()
             .route("/api/release-name", http::Method::GET, index::handler)
+            .route(
+                "/api/release-name/random",
+                http::Method::GET,
+                random::handler,
+            )
             .resource("/api/release-name/{sha}", |r| {
                 r.method(http::Method::GET).with2(show::handler)
             })

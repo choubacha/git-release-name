@@ -1,18 +1,18 @@
 extern crate inflector;
 
-mod adverbs;
 mod adjectives;
-mod nouns;
+mod adverbs;
 mod case;
-mod sha_result;
-mod sha_part;
+mod nouns;
 mod phrase;
+mod sha_part;
+mod sha_result;
 
 pub use self::case::Case;
 
 use self::phrase::Phrase;
-use self::sha_result::{ParseShaError, ShaResult};
 use self::sha_part::ShaPart;
+use self::sha_result::{ParseShaError, ShaResult};
 
 /// Looks up a phrase from a given str slice. It should be able to look up
 /// any sized string but only if it's a valid hexadecimal.

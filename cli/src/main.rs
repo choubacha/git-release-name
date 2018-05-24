@@ -3,9 +3,9 @@ extern crate clap;
 extern crate rand;
 extern crate rn_dictionary;
 
-use std::io::{self, BufRead};
 use atty::Stream;
 use clap::{App, Arg, ArgMatches};
+use std::io::{self, BufRead};
 
 use rn_dictionary::Case;
 

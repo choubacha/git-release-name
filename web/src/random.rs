@@ -1,0 +1,26 @@
+use super::Response;
+use actix_web::{Json, Query};
+use param::Format;
+use rand;
+use rn_dictionary::{self, Case};
+
+#[derive(Deserialize)]
+pub struct Params {
+    format: Option<Format>,
+}
+
+#[derive(Serialize)]
+pub struct Name {
+    name: String,
+    sha: String,
+}
+
+pub fn handler(q: Query<Params>) -> Json<Response<Name>> {
+    let format = q.format.unwrap_or(Case::Lower.into());
+    let sha = format!("{:8x}", rand::random::<u32>());
+    let name = rn_dictionary::lookup(&sha)
+        .map(|p| p.with_case(*format).to_string())
+        .unwrap_or(String::new());
+
+    Json(Response::new(Name { name, sha }))
+}
