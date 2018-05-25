@@ -15,9 +15,81 @@ pub struct Phrase {
 }
 
 impl Phrase {
+    /// Consumes the current phrase and returns a new one with a different
+    /// case.
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// use std::str::FromStr;
+    /// use git_release_name::{Phrase, Case};
+    ///
+    /// let phrase = "1234".parse::<Phrase>().unwrap().with_case(Case::Upper);
+    /// assert_eq!(phrase.case(), Case::Upper);
+    /// ```
     pub fn with_case(mut self, f: Case) -> Self {
         self.format = f;
         self
+    }
+
+    /// The adjective component of this phrase
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// use std::str::FromStr;
+    /// use git_release_name::Phrase;
+    ///
+    /// let phrase: Phrase = "1234".parse().unwrap();
+    /// assert_eq!(phrase.adjective(), "courant");
+    /// ```
+    pub fn adjective(&self) -> &str {
+        &self.adj
+    }
+
+    /// The adverb component of this phrase
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// use std::str::FromStr;
+    /// use git_release_name::Phrase;
+    ///
+    /// let phrase: Phrase = "1234".parse().unwrap();
+    /// assert_eq!(phrase.adverb(), "ambitiously");
+    /// ```
+    pub fn adverb(&self) -> &str {
+        &self.adv
+    }
+
+    /// The noun component of this phrase
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// use std::str::FromStr;
+    /// use git_release_name::Phrase;
+    ///
+    /// let phrase: Phrase = "1234".parse().unwrap();
+    /// assert_eq!(phrase.noun(), "gantlines");
+    /// ```
+    pub fn noun(&self) -> &str {
+        &self.noun
+    }
+
+    /// The case the phrase will be formated with
+    ///
+    /// # Example
+    ///
+    /// ```
+    /// use std::str::FromStr;
+    /// use git_release_name::{Phrase, Case};
+    ///
+    /// let phrase: Phrase = "1234".parse().unwrap();
+    /// assert_eq!(phrase.case(), Case::Lower);
+    /// ```
+    pub fn case(&self) -> Case {
+        self.format
     }
 }
 

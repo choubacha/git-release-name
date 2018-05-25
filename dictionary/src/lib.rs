@@ -8,11 +8,11 @@ mod phrase;
 mod sha_part;
 mod sha_result;
 
-pub use self::case::Case;
-
-use self::phrase::Phrase;
 use self::sha_part::ShaPart;
 use self::sha_result::{ParseShaError, ShaResult};
+
+pub use self::case::Case;
+pub use self::phrase::Phrase;
 
 /// Looks up a phrase from a given str slice. It should be able to look up
 /// any sized string but only if it's a valid hexadecimal.
