@@ -1,5 +1,8 @@
+use adjectives;
+use adverbs;
 use case::Case;
-use sha_result::{ParseShaError, ShaResult};
+use nouns;
+use sha::{ParseShaError, Sha};
 use std::fmt::{Display, Error, Formatter};
 use std::str::FromStr;
 
@@ -7,6 +10,7 @@ use std::str::FromStr;
 ///
 /// When parsed from a slice it will lookup the sha parts in the dictionary.
 /// It knows how to properly format itself if a different case is selected.
+#[derive(Debug, Eq, PartialEq, Clone)]
 pub struct Phrase {
     adj: String,
     adv: String,
@@ -93,16 +97,33 @@ impl Phrase {
     }
 }
 
-impl FromStr for Phrase {
-    type Err = ParseShaError;
+/// Represents failures during parsing.
+#[derive(Debug, Eq, PartialEq, Clone, Copy)]
+pub enum ParsePhraseError {
+    /// The word was not found in the dictionary
+    WordNotFound,
+    Sha(ParseShaError),
+    #[doc(hidden)]
+    __NonExhaustive,
+}
 
-    fn from_str(sha: &str) -> ShaResult<Phrase> {
-        // Ensure that the sha is at least 8 characters so that
-        // when we extract the first 8 there is something there.
-        let sha = format!("{:0>8}", sha);
-        let adv = super::lookup_adverb(sha[0..3].parse()?)?;
-        let adj = super::lookup_adjective(sha[3..5].parse()?)?;
-        let noun = super::lookup_noun(sha[5..8].parse()?)?;
+fn lookup(index: usize, words: &[&str]) -> Result<String, ParsePhraseError> {
+    words
+        .get(index % words.len())
+        .map(|s| s.to_string())
+        .ok_or(ParsePhraseError::WordNotFound)
+}
+
+impl FromStr for Phrase {
+    type Err = ParsePhraseError;
+
+    fn from_str(sha: &str) -> Result<Phrase, Self::Err> {
+        let sha = if sha.len() < 8 { &sha } else { &sha[..8] };
+        let sha: Sha = sha.parse().map_err(|e| ParsePhraseError::Sha(e))?;
+
+        let adv = lookup(sha.adverb(), &adverbs::WORDS)?;
+        let adj = lookup(sha.adjective(), &adjectives::WORDS)?;
+        let noun = lookup(sha.noun(), &nouns::WORDS)?;
 
         Ok(Phrase {
             adv,
@@ -143,6 +164,20 @@ mod tests {
     fn a_phrase_can_be_generated_from_a_str() {
         let phrase = make_simple_phrase();
         assert_eq!("immeasurably endways borings", format!("{}", phrase));
+    }
+
+    #[test]
+    fn it_pads_the_string() {
+        let unpadded = "abc".parse::<Phrase>().expect("Invalid phrase");
+        let padded = "00000abc".parse::<Phrase>().expect("Invalid phrase");
+        assert_eq!(padded, unpadded);
+    }
+
+    #[test]
+    fn it_only_respects_first_eight() {
+        let overflow = "00000abcffff".parse::<Phrase>().expect("Invalid phrase");
+        let underflow = "abc".parse::<Phrase>().expect("Invalid phrase");
+        assert_eq!(overflow, underflow);
     }
 
     #[test]
