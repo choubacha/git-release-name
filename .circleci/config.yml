@@ -6,11 +6,6 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Rust nightly
-          command: |
-            rustup install nightly
-            rustup default nightly
-      - run:
           name: Test
           command: cargo test --all
   deploy-master:
@@ -18,11 +13,6 @@ jobs:
       - image: rust:latest
     steps:
       - checkout
-      - run:
-          name: Rust nightly
-          command: |
-            rustup install nightly
-            rustup default nightly
       - run:
           name: Setup git user info
           command: |
