@@ -1,7 +1,7 @@
 use super::Response;
 use actix_web::{Json, Query};
-use param;
 use git_release_name::{self, Case};
+use param;
 use std::collections::HashMap;
 
 #[derive(Deserialize)]

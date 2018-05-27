@@ -1,7 +1,7 @@
 extern crate atty;
 extern crate clap;
-extern crate rand;
 extern crate git_release_name;
+extern crate rand;
 
 use atty::Stream;
 use clap::{App, Arg, ArgMatches};
@@ -19,7 +19,14 @@ fn main() {
     };
 
     if let Some(shas) = matches.values_of("SHA") {
-        shas.for_each(|sha| println!("{}", git_release_name::lookup(&sha).unwrap().with_case(format)));
+        shas.for_each(|sha| {
+            println!(
+                "{}",
+                git_release_name::lookup(&sha)
+                    .expect("Invalid sha")
+                    .with_case(format)
+            )
+        });
     } else if atty::is(Stream::Stdin) {
         from_random_sha(format)
     } else {
@@ -48,6 +55,7 @@ fn app_matches() -> ArgMatches<'static> {
                 .alias("f")
                 .help("Declares the return format of the phrase."),
         )
+        .arg(Arg::with_name("bench").long("bench"))
         .arg(Arg::with_name("SHA").multiple(true).help(
             "Each arg should be a sha. If they are less than 8 characters they will be padded",
         ))

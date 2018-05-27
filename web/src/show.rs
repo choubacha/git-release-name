@@ -1,6 +1,6 @@
 use actix_web::{HttpResponse, Path, Query, http::StatusCode};
-use param::Format;
 use git_release_name::{self, Case};
+use param::Format;
 
 #[derive(Deserialize)]
 pub struct Params {

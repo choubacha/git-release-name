@@ -1,8 +1,8 @@
 use super::Response;
 use actix_web::{Json, Query};
+use git_release_name::{self, Case};
 use param::Format;
 use rand;
-use git_release_name::{self, Case};
 
 #[derive(Deserialize)]
 pub struct Params {

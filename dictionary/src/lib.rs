@@ -5,40 +5,15 @@ mod adverbs;
 mod case;
 mod nouns;
 mod phrase;
-mod sha_part;
-mod sha_result;
-
-use self::sha_part::ShaPart;
-use self::sha_result::{ParseShaError, ShaResult};
+mod sha;
 
 pub use self::case::Case;
-pub use self::phrase::Phrase;
+pub use self::phrase::{ParsePhraseError, Phrase};
 
 /// Looks up a phrase from a given str slice. It should be able to look up
 /// any sized string but only if it's a valid hexadecimal.
-pub fn lookup(sha: &str) -> ShaResult<Phrase> {
+pub fn lookup(sha: &str) -> Result<Phrase, ParsePhraseError> {
     sha.parse()
-}
-
-fn lookup_adverb(part: ShaPart) -> ShaResult<String> {
-    adverbs::WORDS
-        .get(part.hash() % adverbs::WORDS.len())
-        .map(|s| s.to_string())
-        .ok_or(ParseShaError::WordNotFound)
-}
-
-fn lookup_adjective(part: ShaPart) -> ShaResult<String> {
-    adjectives::WORDS
-        .get(part.hash() % adjectives::WORDS.len())
-        .map(|s| s.to_string())
-        .ok_or(ParseShaError::WordNotFound)
-}
-
-fn lookup_noun(part: ShaPart) -> ShaResult<String> {
-    nouns::WORDS
-        .get(part.hash() % nouns::WORDS.len())
-        .map(|s| s.to_string())
-        .ok_or(ParseShaError::WordNotFound)
 }
 
 #[cfg(test)]
@@ -74,29 +49,5 @@ mod tests {
     #[test]
     fn nouns_are_unique() {
         assert!(has_unique_elements(nouns::WORDS.iter()));
-    }
-
-    #[test]
-    fn it_can_look_up_from_an_adverb() {
-        let word = lookup_adverb("1".parse().unwrap());
-        assert_eq!(word, Ok("exaggeratedly".to_string()));
-        let word = lookup_adverb("ffff".parse().unwrap());
-        assert_eq!(word, Ok("disconcertingly".to_string()));
-    }
-
-    #[test]
-    fn it_can_look_up_an_adjective() {
-        let word = lookup_adjective("1".parse().unwrap());
-        assert_eq!(word, Ok("courant".to_string()));
-        let word = lookup_adjective("ffff".parse().unwrap());
-        assert_eq!(word, Ok("gleeful".to_string()));
-    }
-
-    #[test]
-    fn it_can_look_up_a_noun() {
-        let word = lookup_noun("1".parse().unwrap());
-        assert_eq!(word, Ok("ombre".to_string()));
-        let word = lookup_noun("ffff".parse().unwrap());
-        assert_eq!(word, Ok("tipsters".to_string()));
     }
 }
