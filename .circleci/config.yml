@@ -5,14 +5,27 @@ jobs:
       - image: rust:latest
     steps:
       - checkout
+      - restore_cache:
+         keys:
+           - deps-{{ checksum "Cargo.lock" }}
+           - deps- # used if checksum fails
       - run:
           name: Test
           command: cargo test --all
+      - save_cache:
+         key: deps-{{ checksum "Cargo.lock" }}
+         paths:
+           - target/debug/deps
+
   deploy-master:
     docker:
       - image: rust:latest
     steps:
       - checkout
+      - restore_cache:
+         keys:
+           - deps-{{ checksum "Cargo.lock" }}
+           - deps- # used if checksum fails
       - run:
           name: Setup git user info
           command: |
