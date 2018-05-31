@@ -1,4 +1,4 @@
-use actix_web::{HttpResponse, Path, Query, http::StatusCode};
+use actix_web::{http::StatusCode, HttpResponse, Path, Query};
 use git_release_name::{self, Case};
 use param::Format;
 

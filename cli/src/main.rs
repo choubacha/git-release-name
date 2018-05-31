@@ -36,7 +36,7 @@ fn main() {
 }
 
 const FORMAT_OPTIONS: [&'static str; 8] = [
-    "snake", "kebab", "camel", "pascal", "title", "sentence", "upper", "lower"
+    "snake", "kebab", "camel", "pascal", "title", "sentence", "upper", "lower",
 ];
 
 fn app_matches() -> ArgMatches<'static> {
