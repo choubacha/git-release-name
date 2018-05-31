@@ -2689,7 +2689,7 @@ pub const WORDS: [&'static str; 4096] = [
     "mistily",
     "imaginatively",
     "stridently",
-    "eugenically",
+    "sorrowfully",
     "stingingly",
     "sympathetically",
     "calculably",

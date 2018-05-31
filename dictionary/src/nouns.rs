@@ -2311,7 +2311,7 @@ pub const WORDS: [&'static str; 4096] = [
     "brushers",
     "solace",
     "kincob",
-    "cuckolds",
+    "chuckle",
     "whittling",
     "plateaus",
     "toecap",
