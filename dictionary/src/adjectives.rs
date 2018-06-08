@@ -37,7 +37,7 @@ pub const WORDS: [&'static str; 256] = [
     "aghast",
     "speeding",
     "tidied",
-    "crossbred",
+    "crossed",
     "corbelled",
     "fifteen",
     "about",
