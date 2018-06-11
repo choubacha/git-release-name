@@ -253,6 +253,6 @@ pub const WORDS: [&'static str; 256] = [
     "umbrose",
     "enate",
     "crackers",
-    "bedded",
+    "vast",
     "gleeful",
 ];
