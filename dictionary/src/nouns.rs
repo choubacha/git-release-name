@@ -1940,7 +1940,7 @@ pub const WORDS: [&'static str; 4096] = [
     "dagger",
     "surety",
     "hawsers",
-    "pervert",
+    "ungulate",
     "chibouk",
     "icebergs",
     "shekels",
