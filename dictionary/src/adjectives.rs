@@ -237,7 +237,7 @@ pub const WORDS: [&'static str; 256] = [
     "tarry",
     "gadoid",
     "frightful",
-    "wifeless",
+    "knifeless",
     "thecal",
     "stintless",
     "discalced",
