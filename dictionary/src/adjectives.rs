@@ -21,7 +21,7 @@ pub const WORDS: [&'static str; 256] = [
     "dragging",
     "ungilt",
     "spermic",
-    "prostate",
+    "prostrate",
     "owllike",
     "bunchy",
     "sanguine",
