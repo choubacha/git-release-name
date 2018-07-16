@@ -66,7 +66,7 @@ pub const WORDS: [&'static str; 256] = [
     "looser",
     "guardless",
     "pollened",
-    "anile",
+    "infantile",
     "naiant",
     "blameless",
     "guilty",
