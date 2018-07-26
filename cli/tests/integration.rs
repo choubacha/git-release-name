@@ -66,4 +66,78 @@ mod integration {
             .contains("issuablyTwinningVerso")
             .unwrap();
     }
+
+    #[test]
+    fn formats_sets_of_words() {
+        Assert::main_binary()
+            .with_args(&["list", "-i", "nouns", "-f", "csv"])
+            .succeeds()
+            .stdout()
+            .contains("noun,aba,3230")
+            .unwrap();
+        Assert::main_binary()
+            .with_args(&["list", "-i", "nouns", "--format", "csv"])
+            .succeeds()
+            .stdout()
+            .contains("noun,aba,3230")
+            .unwrap();
+        Assert::main_binary()
+            .with_args(&["list", "-i", "nouns", "-f", "fixed"])
+            .succeeds()
+            .stdout()
+            .contains("noun aba                  3230")
+            .unwrap();
+        Assert::main_binary()
+            .with_args(&["list", "-i", "nouns", "--format", "fixed"])
+            .succeeds()
+            .stdout()
+            .contains("noun aba                  3230")
+            .unwrap();
+    }
+
+    #[test]
+    fn lists_sets_of_words() {
+        macro_rules! test {
+            (list $($type:expr),*; contains $($word:expr),*) => {
+                Assert::main_binary()
+                    .with_args(&["list" $(, "--include", $type)*])
+                    .succeeds()
+                    $(
+                    .stdout()
+                    .contains($word)
+                    )*
+                    .unwrap();
+                Assert::main_binary()
+                    .with_args(&["list", "-i" $(, $type)*])
+                    .succeeds()
+                    $(
+                    .stdout()
+                    .contains($word)
+                    )*
+                    .unwrap();
+            };
+
+            (list contains $($word:expr),*) => {
+                Assert::main_binary()
+                    .with_args(&["list"])
+                    .succeeds()
+                    $(
+                    .stdout()
+                    .contains($word)
+                    )*
+                    .unwrap();
+            };
+        }
+
+        test!(list contains "verso", "twinning", "issuably");
+        test!(list "nouns"; contains "verso");
+        test!(list "n"; contains "verso");
+        test!(list "adjectives"; contains "twinning");
+        test!(list "adj"; contains "twinning");
+        test!(list "adverbs"; contains "issuably");
+        test!(list "adv"; contains "issuably");
+        test!(list "nouns", "adv"; contains "issuably", "verso");
+        test!(list "nouns", "adj"; contains "twinning", "verso");
+        test!(list "adv", "adj"; contains "twinning", "issuably");
+    }
 }
