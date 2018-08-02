@@ -97,8 +97,10 @@ mod integration {
 
     #[test]
     fn lists_sets_of_words() {
-        macro_rules! test {
-            (list $($type:expr),*; contains $($word:expr),*) => {
+        macro_rules! test_list_command {
+            () => {};
+
+            (when including $($type:tt),* contains $($word:expr),*;$($tail:tt)*) => {
                 Assert::main_binary()
                     .with_args(&["list" $(, "--include", $type)*])
                     .succeeds()
@@ -115,9 +117,10 @@ mod integration {
                     .contains($word)
                     )*
                     .unwrap();
+                test_list_command!($($tail)*);
             };
 
-            (list contains $($word:expr),*) => {
+            (without args contains $($word:expr),*;$($tail:tt)*) => {
                 Assert::main_binary()
                     .with_args(&["list"])
                     .succeeds()
@@ -126,18 +129,23 @@ mod integration {
                     .contains($word)
                     )*
                     .unwrap();
+                test_list_command!($($tail)*);
             };
         }
 
-        test!(list contains "verso", "twinning", "issuably");
-        test!(list "nouns"; contains "verso");
-        test!(list "n"; contains "verso");
-        test!(list "adjectives"; contains "twinning");
-        test!(list "adj"; contains "twinning");
-        test!(list "adverbs"; contains "issuably");
-        test!(list "adv"; contains "issuably");
-        test!(list "nouns", "adv"; contains "issuably", "verso");
-        test!(list "nouns", "adj"; contains "twinning", "verso");
-        test!(list "adv", "adj"; contains "twinning", "issuably");
+        test_list_command! {
+            without args contains "verso", "twinning", "issuably";
+
+            when including "nouns"                  contains "verso";
+            when including "n"                      contains "verso";
+            when including "adjectives"             contains "twinning";
+            when including "adj"                    contains "twinning";
+            when including "adverbs"                contains "issuably";
+            when including "adv"                    contains "issuably";
+            when including "nouns", "adv"           contains "issuably", "verso";
+            when including "nouns", "adj"           contains "twinning", "verso";
+            when including "adv", "adj"             contains "twinning", "issuably";
+            when including "nouns", "adv", "adj"    contains "verso", "twinning", "issuably";
+        };
     }
 }
