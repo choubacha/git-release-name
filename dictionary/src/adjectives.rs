@@ -146,7 +146,7 @@ pub const WORDS: [&'static str; 256] = [
     "textbook",
     "bardy",
     "randy",
-    "racist",
+    "gracious",
     "starving",
     "jurant",
     "hopping",
